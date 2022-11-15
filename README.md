@@ -2,7 +2,8 @@
 interactive command line tool to drive lime API
 (see e.g. https://github.com/myriadrf/LimeSuite/blob/master/docs/lms7_api_quick_start_guide.pdf)
 
-## features
+## intention
+- cmdline access to Lime API cmds (similar to LimeSuite GUI -> Modules -> API Calls )
 - usable in scripts
 - small footprint, no need to deploy whole soapy toolkit
 
@@ -21,3 +22,6 @@ available as part of Pothos SDR suite https://downloads.myriadrf.org/builds/Poth
 
 ### windows build instruction
 tested with VStudio 17
+- clone repository
+- add LimeSuite.lib and LimeSuite.dll to project (copy them to ../src/LimeApiTx)
+- open LimeApiTx.sln
