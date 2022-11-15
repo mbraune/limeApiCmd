@@ -22,7 +22,7 @@ int ret_cmdok(int i) {
 
 int handle_About()
 {
-    cout << "\tversion " << LIMETXCW_VERSION << endl;
+    cout << "\tversion " << LIMEAPITX_VERSION << endl;
     cout << "\tdll     " << LMS_GetLibraryVersion() << endl;
     return ret_cmdok(0);
 }

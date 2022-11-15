@@ -47,7 +47,7 @@ void show_available_cmds()
 
 void show_usage()
 {
-    cout << "LimeTxCw " << LIMETXCW_VERSION << endl;
+    cout << "LimeApiTx " << LIMEAPITX_VERSION << endl;
     cout << "available cmds: " << endl;
     show_available_cmds();
     cout << "-------------------------------------------------------------------------------- " << endl;
