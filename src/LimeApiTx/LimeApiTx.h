@@ -1,7 +1,7 @@
 #pragma once
 #include "lime/LimeSuite.h"
 
-#define LIMETXCW_VERSION "0.620"
+#define LIMETXCW_VERSION "0.700"
 
 // global variables:
 extern lms_device_t* device;
