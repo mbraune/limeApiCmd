@@ -21,7 +21,7 @@ LimeSuite.dll
 available as part of Pothos SDR suite https://downloads.myriadrf.org/builds/PothosSDR/
 
 ### windows build instruction
-tested with VStudio 17
+tested with Visual Studio 2022 (v17.x)
 - clone repository
 - add LimeSuite.lib and LimeSuite.dll to project (copy them to ../src/LimeApiTx)
 - open LimeApiTx.sln
