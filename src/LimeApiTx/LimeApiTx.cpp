@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     show_usage();
 
     // initial values
-    float_type  dFreq = 1575.42e6;
+    float_type  dFreq = 1200.0e6;
 
     int n = LMS_GetDeviceList(nullptr);
     if (n > 0)
