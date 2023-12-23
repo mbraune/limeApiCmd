@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include "lime/LimeSuite.h"
+#include "LimeSuite.h"
 #include "ControlFunctions.h"
 
 
@@ -22,7 +22,7 @@ int ret_cmdok(int i) {
 
 int handle_About()
 {
-    cout << "\tversion " << LIMEAPITX_VERSION << endl;
+    cout << "\tversion " << LIMEAPICMD_VERSION << endl;
     cout << "\tdll     " << LMS_GetLibraryVersion() << endl;
     return ret_cmdok(0);
 }

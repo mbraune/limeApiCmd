@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "LimeApiTx.h"
+#include "LimeApiCmd.h"
 
 typedef struct _stCfPara
 {

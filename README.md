@@ -23,5 +23,5 @@ available as part of Pothos SDR suite https://downloads.myriadrf.org/builds/Poth
 ### windows build instruction
 tested with Visual Studio 2022 (v17.x)
 - clone repository
-- add LimeSuite.lib and LimeSuite.dll to project (copy them to ../src/LimeApiTx)
+- add LimeSuite.lib and LimeSuite.dll to project (copy them to ./LimeSuite)
 - open LimeApiTx.sln

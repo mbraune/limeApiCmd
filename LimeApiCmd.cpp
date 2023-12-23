@@ -1,14 +1,13 @@
-// LimeTxCw.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// LimeApiCmd.cpp : Defines the entry point for the application.
 //
 
+#include "LimeApiCmd.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
-#include "lime/LimeSuite.h"
 #include "ControlFunctions.h"
 #include "CmdParameter.h"
-#include "LimeApiTx.h"
 
 // -----------------------------------
 
@@ -17,14 +16,12 @@
 //------------------------------------
 lms_device_t* device = NULL;
 
-// -----------------------------------
 using namespace std;
-
 
 int device_error()
 {
     if (device != NULL) {
-        cout << "ERROR: " << LMS_GetLastErrorMessage() << endl;
+        cout << "ERROR: " << LMS_GetLastErrorMessage() << endl; 
         cout << "err_1001\n";   // device error
         LMS_Close(device);
     }
@@ -38,7 +35,7 @@ void show_available_cmds()
     const int n = sizeof(strCtrlFunc) / sizeof(strCtrlFunc[0]);
     for (int i = 1; i < n; ++i)
     {
-        if (i%4 == 0)
+        if (i % 4 == 0)
             cout << std::setw(20) << strCtrlFunc[i] << endl;
         else cout << std::setw(20) << strCtrlFunc[i];
     }
@@ -47,7 +44,7 @@ void show_available_cmds()
 
 void show_usage()
 {
-    cout << "LimeApiTx " << LIMEAPITX_VERSION << endl;
+    cout << "LimeApiCmd " << LIMEAPICMD_VERSION << endl;
     cout << "available cmds: " << endl;
     show_available_cmds();
     cout << "-------------------------------------------------------------------------------- " << endl;
@@ -70,15 +67,15 @@ void show_status()
 
     float_type clock;
     LMS_GetClockFreq(device, LMS_CLOCK_REF, &clock);
-    ss << "\tclk_ref = " << fixed << setprecision(6) << clock/1e6 << " MHz\n";
+    ss << "\tclk_ref = " << fixed << setprecision(6) << clock / 1e6 << " MHz\n";
 
     float_type myfreq;
     LMS_GetLOFrequency(device, LMS_CH_TX, 0, &myfreq);
-    ss << "\tfreq    = " << fixed << setprecision(4) << myfreq/1e6 << " MHz  \t";
+    ss << "\tfreq    = " << fixed << setprecision(4) << myfreq / 1e6 << " MHz  \t";
 
     float_type gain;
     LMS_GetNormalizedGain(device, LMS_CH_TX, 0, &gain);
-    ss << "   gain = " << fixed << setprecision(2) << gain  << endl;
+    ss << "   gain = " << fixed << setprecision(2) << gain << endl;
 
     cout << ss.str();
 }
@@ -132,7 +129,7 @@ int main(int argc, char** argv)
             }
 
             if (cPara.needHelp()) {
-                cout << "\t" << cPara.getUsage()  << endl;
+                cout << "\t" << cPara.getUsage() << endl;
                 cout << "err_1000\n";
                 continue;
             }
@@ -145,35 +142,35 @@ int main(int argc, char** argv)
             }
 
             switch (eCF) {
-                case CF_None:                                                       break;
-                case CF_About:                  handle_About();                     break;
-                case CF_Syscmd:                 handle_Syscmd(cPara);               break;
-                case CF_Help:                   handle_Help();                      break;
-                case CF_Devid:                  handle_Devid();                     break;
-                case CF_Init:                   handle_Init();                      break;
-                case CF_Reset:                  handle_Reset();                     break;
-                case CF_GetChipTemperature:     handle_GetChipTemperature(cPara);   break;
-                case CF_EnableChannel:          handle_EnableChannel(cPara);        break;
-                case CF_SetAntenna:             handle_SetAntenna(cPara);           break;
-                case CF_GetAntenna:             handle_GetAntenna(cPara);           break;
-                case CF_SetLOFrequency:         handle_SetLOFrequency(cPara);       break;
-                case CF_GetLOFrequency:         handle_GetLOFrequency(cPara);       break;
-                case CF_SetNormalizedGain:      handle_SetNormalizedGain(cPara);    break;
-                case CF_GetNormalizedGain:      handle_GetNormalizedGain(cPara);    break;
-                case CF_SetGaindB:              handle_SetGaindB(cPara);            break;
-                case CF_GetGaindB:              handle_GetGaindB(cPara);            break;
-                case CF_SetSampleRate:          handle_SetSampleRate(cPara);        break;
-                case CF_GetSampleRate:          handle_GetSampleRate(cPara);        break;
-                case CF_LoadConfig:             handle_LoadConfig(cPara);           break;
-                case CF_SaveConfig:             handle_SaveConfig(cPara);           break;
-                case CF_Synchronize:            handle_Synchronize(cPara);          break;
-                case CF_SetClockFreq:           handle_SetClockFreq(cPara);         break;
-                case CF_GetClockFreq:           handle_GetClockFreq(cPara);         break;
-                case CF_VCTCXORead:             handle_VCTCXORead(cPara);           break;
-                case CF_VCTCXOWrite:            handle_VCTCXOWrite(cPara);          break;
-                case CF_Close:                  handle_Close();                     break;
+            case CF_None:                                                       break;
+            case CF_About:                  handle_About();                     break;
+            case CF_Syscmd:                 handle_Syscmd(cPara);               break;
+            case CF_Help:                   handle_Help();                      break;
+            case CF_Devid:                  handle_Devid();                     break;
+            case CF_Init:                   handle_Init();                      break;
+            case CF_Reset:                  handle_Reset();                     break;
+            case CF_GetChipTemperature:     handle_GetChipTemperature(cPara);   break;
+            case CF_EnableChannel:          handle_EnableChannel(cPara);        break;
+            case CF_SetAntenna:             handle_SetAntenna(cPara);           break;
+            case CF_GetAntenna:             handle_GetAntenna(cPara);           break;
+            case CF_SetLOFrequency:         handle_SetLOFrequency(cPara);       break;
+            case CF_GetLOFrequency:         handle_GetLOFrequency(cPara);       break;
+            case CF_SetNormalizedGain:      handle_SetNormalizedGain(cPara);    break;
+            case CF_GetNormalizedGain:      handle_GetNormalizedGain(cPara);    break;
+            case CF_SetGaindB:              handle_SetGaindB(cPara);            break;
+            case CF_GetGaindB:              handle_GetGaindB(cPara);            break;
+            case CF_SetSampleRate:          handle_SetSampleRate(cPara);        break;
+            case CF_GetSampleRate:          handle_GetSampleRate(cPara);        break;
+            case CF_LoadConfig:             handle_LoadConfig(cPara);           break;
+            case CF_SaveConfig:             handle_SaveConfig(cPara);           break;
+            case CF_Synchronize:            handle_Synchronize(cPara);          break;
+            case CF_SetClockFreq:           handle_SetClockFreq(cPara);         break;
+            case CF_GetClockFreq:           handle_GetClockFreq(cPara);         break;
+            case CF_VCTCXORead:             handle_VCTCXORead(cPara);           break;
+            case CF_VCTCXOWrite:            handle_VCTCXOWrite(cPara);          break;
+            case CF_Close:                  handle_Close();                     break;
 
-                default: break;
+            default: break;
             }
 
             if (eCF == CF_Close)
@@ -186,3 +183,4 @@ int main(int argc, char** argv)
     }
     return 0;
 }
+

@@ -1,7 +1,10 @@
+﻿// LimeApiCmd.h : Include file for standard system include files,
+// or project specific include files.
 #pragma once
-#include "lime/LimeSuite.h"
+#include "LimeSuite.h"
+#include <string>
 
-#define LIMEAPITX_VERSION "0.700"
+#define LIMEAPICMD_VERSION "0.800"
 
 // global variables:
 extern lms_device_t* device;
@@ -118,4 +121,5 @@ const std::string cf_usage[] = {
     "VCTCXOWrite(int dacvalue)                   \n    example: VCTCXOWrite(65550)",
     "Close()"
 };
+
 
