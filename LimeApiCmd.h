@@ -4,7 +4,7 @@
 #include "LimeSuite.h"
 #include <string>
 
-#define LIMEAPICMD_VERSION "0.800"
+#define LIMEAPICMD_VERSION "0.900"
 
 // global variables:
 extern lms_device_t* device;
@@ -50,6 +50,11 @@ typedef enum _PAR_TYPE
     etype(GetClockFreq),        \
     etype(VCTCXORead),          \
     etype(VCTCXOWrite),         \
+    etype(RxStreamSetup),       \
+    etype(RxStreamStart),       \
+    etype(RxStreamRead),        \
+    etype(RxStreamStop),        \
+    etype(RxStreamDestroy),     \
     etype(Close)
 
 #define etype(x) CF_##x
@@ -88,6 +93,11 @@ const PAR_TYPE cf_ParaT[][CF_MAX_PARA] = {
     {pt_Int,    pt_None,   pt_None,   pt_None},     // GetClockFreq
     {pt_None,   pt_None,   pt_None,   pt_None},     // VCTCXORead
     {pt_Int,    pt_None,   pt_None,   pt_None},     // VCTCXOWrite
+    {pt_None,   pt_None,   pt_None,   pt_None},     // RxStreamSetup
+    {pt_None,   pt_None,   pt_None,   pt_None},     // RxStreamStart
+    {pt_Int,    pt_String, pt_None,   pt_None},     // RxStreamRead
+    {pt_None,   pt_None,   pt_None,   pt_None},     // RxStreamStop
+    {pt_None,   pt_None,   pt_None,   pt_None},     // RxStreamDestroy
     {pt_None,   pt_None,   pt_None,   pt_None},     // Close
 };
 
@@ -112,13 +122,18 @@ const std::string cf_usage[] = {
     "GetGaindB(dir_tx, ch_idx) return gain[dB]   \n    example: GetGaindB(tx, 0)",
     "SetSampleRate(float_rate[MHz], oversamp)    \n    example: SetSampleRate(20, 0)",
     "GetSampleRate(dir_tx, ch_idx)               \n    example: GetSampleRate(tx, 0)",
-    "LoadConfig",
+    "LoadConfig(filename)                        \n    example: LoadConfig(myconf.ini)",
     "SaveConfig(filename)                        \n    example: SaveConfig(myconf.ini)",
     "Synchronize(bool toChip)                    \n    example: Synchronize(1)",
     "SetClockFreq(int clkid, f[MHz]              \n    example: SetClockFreq(2, 40)",
     "GetClockFreq(int clkid)   return f[MHz]     \n    example: GetClockFreq(2)",
     "VCTCXORead()",
     "VCTCXOWrite(int dacvalue)                   \n    example: VCTCXOWrite(65550)",
+    "RxStreamSetup()",
+    "RxStreamStart()",
+    "RxStreamRead(size, iq_file) return pwr_db   \n    example: RxStreamRead(8000, iq.dat)",
+    "RxStreamStop()",
+    "RxStreamDestroy()",
     "Close()"
 };
 

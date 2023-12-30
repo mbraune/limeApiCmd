@@ -29,4 +29,14 @@ int handle_SetClockFreq(const CCmdParameter& cPara);
 int handle_GetClockFreq(const CCmdParameter& cPara);
 int handle_VCTCXORead(const CCmdParameter& cPara);
 int handle_VCTCXOWrite(const CCmdParameter& cPara);
+int handle_RxStreamSetup(const CCmdParameter& cPara);
+int handle_RxStreamStart(const CCmdParameter& cPara);
+int handle_RxStreamRead(const CCmdParameter& cPara);
+int handle_RxStreamStop(const CCmdParameter& cPara);
+int handle_RxStreamDestroy(const CCmdParameter& cPara);
 int handle_Close();
+
+//
+// helper
+//
+double p_dbm(int16_t* buf, int size);

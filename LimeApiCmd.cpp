@@ -14,7 +14,7 @@
 //------------------------------------
 // global
 //------------------------------------
-lms_device_t* device = NULL;
+lms_device_t*  device = NULL;
 
 using namespace std;
 
@@ -168,6 +168,11 @@ int main(int argc, char** argv)
             case CF_GetClockFreq:           handle_GetClockFreq(cPara);         break;
             case CF_VCTCXORead:             handle_VCTCXORead(cPara);           break;
             case CF_VCTCXOWrite:            handle_VCTCXOWrite(cPara);          break;
+            case CF_RxStreamSetup:          handle_RxStreamSetup(cPara);        break;
+            case CF_RxStreamStart:          handle_RxStreamStart(cPara);        break;
+            case CF_RxStreamRead:           handle_RxStreamRead(cPara);         break;
+            case CF_RxStreamStop:           handle_RxStreamStop(cPara);         break;
+            case CF_RxStreamDestroy:        handle_RxStreamDestroy(cPara);      break;
             case CF_Close:                  handle_Close();                     break;
 
             default: break;

@@ -4,11 +4,14 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 #include "LimeSuite.h"
 #include "ControlFunctions.h"
 
 
 using namespace std;
+
+lms_stream_t streamRx;
 
 // print cmd_ok and return value
 int ret_cmdok(int i) {
@@ -258,8 +261,72 @@ int handle_VCTCXOWrite(const CCmdParameter& cPara)
     return ret_cmdok(res);
 }
 
+int handle_RxStreamSetup(const CCmdParameter& cPara)
+{
+    streamRx.channel = 0; //channel number
+    streamRx.fifoSize = 1024 * 1024; //fifo size in samples
+    streamRx.throughputVsLatency = 1.0; //optimize for max throughput
+    streamRx.isTx = false; //RX channel
+    streamRx.dataFmt = lms_stream_t::LMS_FMT_I12; //12-bit integers
+    int res = LMS_SetupStream(device, &streamRx);
+    return ret_cmdok(res);
+}
+
+int handle_RxStreamStart(const CCmdParameter& cPara)
+{
+    // todo check stream valid
+    int res = LMS_StartStream(&streamRx);
+    return ret_cmdok(res);
+}
+
+int handle_RxStreamRead(const CCmdParameter& cPara)
+{
+    int res = -1;
+    int32_t sampleCnt = cPara.m_stPara[0].valInt;
+    const char* file  = cPara.m_stPara[1].valString.c_str();
+
+    std::vector<int16_t> sampleBuf(sampleCnt * 2);
+    int samplesRead;
+    samplesRead = LMS_RecvStream(&streamRx, &sampleBuf[0], sampleCnt, NULL, 1000);
+
+    // todo write to file if nonempty
+
+    cout << "\tp(dbm) " << p_dbm(&sampleBuf[0], samplesRead) << endl;
+    res = !(samplesRead == sampleCnt);
+    return ret_cmdok(res);
+}
+
+
+int handle_RxStreamStop(const CCmdParameter& cPara)
+{
+    int res = LMS_StopStream(&streamRx);
+    return ret_cmdok(res);
+}
+
+int handle_RxStreamDestroy(const CCmdParameter& cPara)
+{
+    int res = LMS_DestroyStream(device, &streamRx);
+    return ret_cmdok(res);
+}
 
 int handle_Close() {
     int res = LMS_Close(device);
     return ret_cmdok(res);
+}
+
+
+//
+// helper
+//
+double p_dbm(int16_t* buf, int size)
+{
+    double sum = 0.0;
+    int16_t i, q;
+    for (int j = 0; j < size; ++j) {
+        i = buf[2 * j];
+        q = buf[2 * j + 1];
+        sum += i * i + q * q;
+    }
+    sum = sum / size;
+    return (10 * log10(sum) - 110);  // -110 offset with normalized gain 0.78
 }
