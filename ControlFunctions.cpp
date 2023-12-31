@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <iomanip>
 #include <vector>
 #include "LimeSuite.h"
@@ -274,14 +275,18 @@ int handle_RxStreamSetup(const CCmdParameter& cPara)
 
 int handle_RxStreamStart(const CCmdParameter& cPara)
 {
-    // todo check stream valid
-    int res = LMS_StartStream(&streamRx);
+    int res = -1;
+    if (streamRx.handle != 0)
+        res = LMS_StartStream(&streamRx);
     return ret_cmdok(res);
 }
 
 int handle_RxStreamRead(const CCmdParameter& cPara)
 {
     int res = -1;
+    if (streamRx.handle == 0)
+        return ret_cmdok(res);
+
     int32_t sampleCnt = cPara.m_stPara[0].valInt;
     const char* file  = cPara.m_stPara[1].valString.c_str();
 
@@ -289,17 +294,27 @@ int handle_RxStreamRead(const CCmdParameter& cPara)
     int samplesRead;
     samplesRead = LMS_RecvStream(&streamRx, &sampleBuf[0], sampleCnt, NULL, 1000);
 
-    // todo write to file if nonempty
+    // write data to gp file
+    std::ofstream outFile(file);
+    stringstream ss;
+    ss << "set size square" << endl << "set xrange[-2050:2050]" << endl << "set yrange[-2050:2050]" << endl;
+    ss << "plot '-' with points" << endl;;
+    for (int j = 0; j < samplesRead; ++j)
+        ss << sampleBuf[2 * j] << " " << sampleBuf[2 * j + 1] << endl;
+    ss << 'e';
+    outFile << ss.rdbuf();
+    outFile.close();
 
-    cout << "\tp(dbm) " << p_dbm(&sampleBuf[0], samplesRead) << endl;
+    cout << "\tp_dbm " << fixed << setprecision(2) << p_dbm(&sampleBuf[0], samplesRead) << endl;
     res = !(samplesRead == sampleCnt);
     return ret_cmdok(res);
 }
 
-
 int handle_RxStreamStop(const CCmdParameter& cPara)
 {
-    int res = LMS_StopStream(&streamRx);
+    int res = -1;
+    if (streamRx.handle != 0)
+        res = LMS_StopStream(&streamRx);
     return ret_cmdok(res);
 }
 
